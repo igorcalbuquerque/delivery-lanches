@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :funcionarios
   get 'venda_join_produto/index'
 
   get 'venda_join_produto/new'
@@ -19,7 +20,11 @@ Rails.application.routes.draw do
   get "welcome/index"
 
   resources :produtos
-  resources :vendas
+
+  resources :vendas do
+    resources :produtos
+  end
+
   resources :clientes
 
   root "welcome#index"
