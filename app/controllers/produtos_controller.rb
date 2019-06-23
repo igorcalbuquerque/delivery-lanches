@@ -1,6 +1,8 @@
 class ProdutosController < ApplicationController
   def index
     @produto = Produto.all
+    @users = User.all
+    authorize @users
   end
 
   def new
@@ -9,11 +11,7 @@ class ProdutosController < ApplicationController
 
   def create
     @produto = Produto.new(produto_params)
-    if @produto.save
-      redirect_to @produto
-    else
-      render 'new'
-    end
+    crup2(@produto, @produto.save, 'new')
   end
 
   def show
@@ -26,12 +24,7 @@ class ProdutosController < ApplicationController
 
   def update
     @produto = Produto.find(params[:id])
-
-    if @produto.update(produto_params)
-      redirect_to @produto
-    else
-      render 'edit'
-    end
+    crup2(@produto, @produto.update(produto_params), 'edit')
   end
 
   def destroy

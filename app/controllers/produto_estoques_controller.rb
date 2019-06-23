@@ -5,6 +5,8 @@ class ProdutoEstoquesController < ApplicationController
   # GET /produto_estoques.json
   def index
     @produto_estoques = ProdutoEstoque.all
+    @users = User.all
+    authorize @users
   end
 
   # GET /produto_estoques/1
@@ -25,30 +27,13 @@ class ProdutoEstoquesController < ApplicationController
   # POST /produto_estoques.json
   def create
     @produto_estoque = ProdutoEstoque.new(produto_estoque_params)
-
-    respond_to do |format|
-      if @produto_estoque.save
-        format.html { redirect_to @produto_estoque, notice: 'Produto estoque was successfully created.' }
-        format.json { render :show, status: :created, location: @produto_estoque }
-      else
-        format.html { render :new }
-        format.json { render json: @produto_estoque.errors, status: :unprocessable_entity }
-      end
-    end
+    crup(@produto_estoque, @produto_estoque.save, :created, :new)
   end
 
   # PATCH/PUT /produto_estoques/1
   # PATCH/PUT /produto_estoques/1.json
   def update
-    respond_to do |format|
-      if @produto_estoque.update(produto_estoque_params)
-        format.html { redirect_to @produto_estoque, notice: 'Produto estoque was successfully updated.' }
-        format.json { render :show, status: :ok, location: @produto_estoque }
-      else
-        format.html { render :edit }
-        format.json { render json: @produto_estoque.errors, status: :unprocessable_entity }
-      end
-    end
+    crup(@produto_estoque, @produto_estoque.update(produto_estoque_params), :ok, :edit)
   end
 
   # DELETE /produto_estoques/1
